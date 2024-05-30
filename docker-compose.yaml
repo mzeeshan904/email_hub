@@ -1,0 +1,6 @@
+version: '3'
+services:
+  elasticsearch:
+    image: my-elasticsearch-image
+    ports:
+      - '9200:9200'
