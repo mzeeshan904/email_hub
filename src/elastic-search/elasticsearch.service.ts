@@ -13,7 +13,7 @@ export class ElasticsearchService implements OnModuleInit {
       node: process.env.ELASTICSEARCH_NODE || 'https://localhost:9200',
       auth: {
         username: process.env.ELASTICSEARCH_USERNAME || 'elastic',
-        password: process.env.ELASTICSEARCH_PASSWORD || 'c9ksZhRf*xsOFIgmLoGv',
+        password: process.env.ELASTICSEARCH_PASSWORD || 'M-yLzON9d7m3lOnPkKzY',
       },
       tls: {
         // ca: fs.readFileSync(process.env.ELASTICSEARCH_CA_PATH || '../../http_ca.crt'),

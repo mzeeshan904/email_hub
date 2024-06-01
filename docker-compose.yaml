@@ -1,6 +1,25 @@
-version: '3'
+version: '3.8'
+
 services:
+  app:
+    build: .
+    container_name: nestjs_app
+    ports:
+      - '3000:3000'
+    depends_on:
+      - elasticsearch
+    environment:
+      - NODE_ENV=production
+      - ELASTICSEARCH_HOST=elasticsearch
+      - ELASTICSEARCH_PORT=9200
+
   elasticsearch:
-    image: my-elasticsearch-image
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
+    container_name: elasticsearch
+    environment:
+      - ELASTICSEARCH_USERNAME=elastic
+      - ELASTICSEARCH_PASSWORD=M-yLzON9d7m3lOnPkKzY
+      - discovery.type=single-node
     ports:
       - '9200:9200'
+      - '9300:9300'
