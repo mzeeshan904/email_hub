@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import {SearchModule} from "./elastic-search/search.module"
+import { ElasticSearchModule } from './elastic-search/elasticsearch.module';
+
 
 @Module({
-  imports: [SearchModule],
+  imports: [ElasticSearchModule],
   controllers: [AppController],
   providers: [AppService],
 })
