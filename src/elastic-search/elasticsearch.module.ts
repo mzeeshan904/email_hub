@@ -12,8 +12,8 @@ import UserSearchService from './user.service';
       useFactory: async () => ({
         node: 'https://localhost:9200',
         auth: {
-          username:  'elastic',
-          password: 'Zgj-4b_PE3C=QfO1hh+6',
+          username: 'elastic',
+          password: 'EiU5xRTIomIoRe3Z7RIn',
         },
         tls: {
           // ca: fs.readFileSync(process.env.ELASTICSEARCH_CA_PATH || '../../http_ca.crt'),

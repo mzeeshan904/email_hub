@@ -18,7 +18,7 @@ services:
     container_name: elasticsearch
     environment:
       - ELASTICSEARCH_USERNAME=elastic
-      - ELASTICSEARCH_PASSWORD=Zgj-4b_PE3C=QfO1hh+6
+      - ELASTICSEARCH_PASSWORD=EiU5xRTIomIoRe3Z7RIn
       - discovery.type=single-node
     ports:
       - '9200:9200'
