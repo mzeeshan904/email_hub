@@ -1,28 +1,48 @@
-import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
-import { Client } from '@elastic/elasticsearch';
-import * as process from 'process';
-import * as fs from 'fs';
-import { ElasticsearchService } from '@nestjs/elasticsearch';
+import { Injectable } from '@nestjs/common';
+import { ElasticsearchService as NestElasticsearchService } from '@nestjs/elasticsearch';
 
 @Injectable()
-export class SearchService {
-  private readonly logger = new Logger(SearchService.name);
-  // private readonly client: Client;
-  constructor(private elasticsearchService:ElasticsearchService){
-
+export class ElasticsearchService {
+  constructor(
+    private readonly elasticsearchService: NestElasticsearchService,
+  ) {}
+  async createIndex(index: string) {
+    const indexExists = await this.elasticsearchService.indices.exists({
+      index,
+    });
+    if (!indexExists) {
+      await this.elasticsearchService.indices.create({ index });
+    }
   }
 
-  async indexData(index: string, body: any) {
-    return await this.elasticsearchService.index({
+  async addUser(index: string, id: string, user: any) {
+    await this.elasticsearchService.index({
       index,
-      body,
+      id,
+      body: user,
     });
   }
 
-  async search(index: string, query: any) {
-    return await this.elasticsearchService.search({
+  async getUser(index: string, id: string) {
+    try {
+      const result = await this.elasticsearchService.get({
+        index,
+        id,
+      });
+      return result._source;
+    } catch (error) {
+      if (error.meta.statusCode === 404) {
+        return null;
+      }
+      throw error;
+    }
+  }
+
+  async getAllUsers(index: string, query: any) {
+    const result = await this.elasticsearchService.search({
       index,
       body: query,
     });
+    return result.hits.hits.map((hit) => hit._source);
   }
 }

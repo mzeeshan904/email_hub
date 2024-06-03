@@ -1,12 +1,18 @@
+// src/app.module.ts
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ElasticSearchModule } from './elastic-search/elasticsearch.module';
-
+import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { ElasticsearchModule } from './elastic-search/elasticsearch.module';
 
 @Module({
-  imports: [ElasticSearchModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    AuthModule,
+    UserModule,
+    ElasticsearchModule,
+  ],
 })
 export class AppModule {}
