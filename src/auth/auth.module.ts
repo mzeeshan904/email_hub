@@ -6,12 +6,14 @@ import { OutlookStrategy } from './outlook.strategy';
 import { ConfigModule } from '@nestjs/config';
 import { ElasticsearchModule } from '../elastic-search/elasticsearch.module';
 import { UserService } from '../user/user.service';
+import { OutlookModule } from 'src/outlook/outlook.module';
 
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'outlook' }),
     ConfigModule,
     ElasticsearchModule,
+    OutlookModule
   ],
   controllers: [AuthController],
   providers: [OutlookStrategy, UserService],

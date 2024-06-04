@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { ElasticsearchService } from '../elastic-search/elasticsearch.service';
+import { OutlookService } from '../outlook/outlook.service';
 
 @Injectable()
 export class UserService {
   private readonly index = 'users';
 
-  constructor(private readonly elasticsearchService: ElasticsearchService) {}
+  constructor(
+    private readonly elasticsearchService: ElasticsearchService,
+    private readonly outlookService: OutlookService,
+  ) {}
 
   async createUser(user: any) {
     await this.elasticsearchService.createIndex(this.index);
@@ -14,35 +18,25 @@ export class UserService {
       this.index,
       user.outlookId,
     );
+
+    // Trigger initial email synchronization
+    // await this.outlookService.fetchEmails(user.accessToken, user.outlookId);
+
     return newUser;
   }
 
   async getUserById(outlookId: string) {
     return this.elasticsearchService.getUser(this.index, outlookId);
   }
+  async getAllUsers() {
+    return this.elasticsearchService.search(this.index, {}); 
+  }
 
-  async getAllUsers(query: string) {
-    let searchQuery;
-    if (query) {
-      searchQuery = {
-        query: {
-          multi_match: {
-            query,
-            fields: ['firstName', 'lastName', 'email'],
-          },
-        },
-      };
-    } else {
-      searchQuery = {
-        query: {
-          match_all: {},
-        },
-      };
-    }
-    const result = await this.elasticsearchService.getAllUsers(
-      this.index,
-      searchQuery,
-    );
-    return result;
+  async updateUser(outlookId: string, updatedUser: any) {
+    await this.elasticsearchService.updateUser(this.index, outlookId, updatedUser);
+  }
+
+  async deleteUser(outlookId: string) {
+    await this.elasticsearchService.deleteUser(this.index, outlookId);
   }
 }

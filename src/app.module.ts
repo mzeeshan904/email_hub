@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { ElasticsearchModule } from './elastic-search/elasticsearch.module';
+import { OutlookModule } from './outlook/outlook.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { ElasticsearchModule } from './elastic-search/elasticsearch.module';
     AuthModule,
     UserModule,
     ElasticsearchModule,
+    OutlookModule,
   ],
 })
 export class AppModule {}
